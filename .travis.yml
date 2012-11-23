@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - 0.8.14
+  - 0.6.17
+# whitelist
+branches:
+  only:
+    - master
+notifications:
+  email:
+    - q3boy1@gmail.com

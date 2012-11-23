@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-  - 0.8.14
-  - 0.6.17
+  - 0.8
+  - 0.6
 # whitelist
 branches:
   only:

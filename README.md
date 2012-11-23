@@ -1,6 +1,6 @@
 # EventPipe
 
-![travis build info](https://api.travis-ci.org/q3boy/options-stream.png)
+![travis build info](https://api.travis-ci.org/q3boy/event-pipe.png)
 
 An simple tool to code with event like a pipe.
 

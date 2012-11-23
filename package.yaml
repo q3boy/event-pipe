@@ -21,4 +21,4 @@ devDependencies:
 scripts:
   prepublish: make all
   postpublish: make clean
-  test: jake coverage
+  test: make test

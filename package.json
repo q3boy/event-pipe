@@ -19,13 +19,13 @@
     "url": "http://github.com/q3boy/event-pipe/issues"
   },
   "devDependencies": {
-    "jake-tools": ">=0.0.9",
-    "expect.js": ">=0.2.0",
-    "yamljs": ">=0.1.3",
-    "jake": ">=0.5.0"
+    "coffee-script": "*",
+    "mocha": "*",
+    "expect.js": "*",
+    "jscover": "*"
   },
   "scripts": {
-    "prepublish": "make all",
+    "prepublish": "make release",
     "postpublish": "make clean",
     "test": "make test"
   }

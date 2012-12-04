@@ -22,7 +22,8 @@
     "coffee-script": "*",
     "mocha": "*",
     "expect.js": "*",
-    "jscover": "*"
+    "jscover": "*",
+    "yaml2json": "*"
   },
   "scripts": {
     "prepublish": "make release",

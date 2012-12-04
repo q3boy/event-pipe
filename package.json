@@ -28,6 +28,6 @@
   "scripts": {
     "prepublish": "make release",
     "postpublish": "make clean",
-    "test": "make test"
+    "test": "make test-cov"
   }
 }

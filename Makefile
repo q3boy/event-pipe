@@ -71,7 +71,7 @@ test-cov: clean json
 
 	@echo "run test"
 	@$(-BIN_MOCHA) \
-		--reporter list \
+		--reporter tap \
 		$(-COVERAGE_TESTS)
 
 	@echo "make coverage report"

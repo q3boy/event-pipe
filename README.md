@@ -83,6 +83,36 @@ var ep = require('event-pipe');
 var p = ep();
 p.add(step1, [step2_action1, step2_action2], step3).run(args)
 ```
+
+## Lazy mode
+
+```javascript
+var ep = require('event-pipe');
+var e = ep().on('error', function(err){
+	console.error('got error:', err.stack);
+}).lazy(function(url){ // request an url
+	request(url, this)
+}).lazy([
+	function(body){ // file1
+		var file = __dirname + '/google1.html';
+		fs.writeFile(file, body, this);
+	},
+	function(body){ // file2
+		var file = __dirname + '/google2.html';
+		fs.writeFile(file, body, this);
+	},
+]).lazy(function(){ // write file done
+	console.log('all done');
+}).run('http://www.google.com/') // start pipe
+```
+
+```javascript
+var ep = require('event-pipe');
+var p = ep();
+p.lseq(step1, step2, step3).run(args)
+p.lpar(step1, step2, step3).run(args)
+```
+
 ## stop
 ```javascript
 var ep = require('event-pipe');
@@ -98,11 +128,15 @@ p.add(step1, step2, function(stop){ // step3, step4 will never be run
 var ep = require('event-pipe');
 var p = ep();
 p.add(step1, step2, step3, stop4).seq(step4).run(args).stop() // step2, step3, step4 will never be run
+
+
 ```
 ## Events
+### error
+got error when use lazy mode.
 ### stop
-stop start
+stop start.
 ### stopped
-pipe stopped
+pipe stopped.
 ### drain
 no more events.

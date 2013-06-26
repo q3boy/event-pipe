@@ -72,8 +72,10 @@ describe 'Event Pipe Test', ->
       flag = 0
       par = ->
         e(flag++).to.within 0,1
-        @()
-      ep [par, par], ->
+        @(flag)
+      ep [par, par], (a,b)->
+        e(a[0]).to.be 1
+        e(b[0]).to.be 2
         e(flag).to.be 2
         done()
       .run()
@@ -133,5 +135,49 @@ describe 'Event Pipe Test', ->
         e(stop).to.be true
         done()
       , 10
+  describe 'Lazy Mode', ->
+    it 'sequence no error', (done)->
+      ee = ep()
+      ee.lazy(->
+        @ null, 1, 2
+      , (a, b) ->
+        e(a).to.be 1
+        e(b).to.be 2
+        done()
+      ).run()
+    it 'sequence with error', (done)->
+      ee = ep()
+      ee.on 'error', (err) ->
+        e(err.a).to.be 1
+        done()
+      ee.lazy(->
+        @ {a:1}, 1, 2
+      , (a, b) ->
+        fail()
+      )
+      ee.run()
+    it 'parallel no error', (done)->
+      ee = ep()
+      ee.lazy([->
+        @ null, 1, 2
+      , ->
+        @ null, 3, 4
+      ], (a, b) ->
+        e(a).to.eql [1,2]
+        e(b).to.eql [3,4]
+        done()
+      ).run()
 
+    it 'parallel with error', (done)->
+      ee = ep()
 
+      ee.lazy([->
+        @ {a:1}, 1, 2
+      , ->
+        @ null, 3, 4
+      ], (a, b) ->
+        fail()
+      ).on('error', (err) ->
+        e(err.a).to.be 1
+        done())
+      .run()

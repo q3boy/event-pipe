@@ -14,7 +14,7 @@ repository:
 bugs:
   url: http://github.com/q3boy/event-pipe/issues
 devDependencies:
-  coffee-script: '*'
+  coffee-script: '1.6.3'
   mocha: '*'
   expect.js: '*'
   jscover: '*'

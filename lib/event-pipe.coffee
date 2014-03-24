@@ -1,5 +1,8 @@
 events = require "events"
 
+isArray = (arg)->
+  Object.prototype.toString.call(arg) is '[object Array]'
+
 class EventPipe extends events.EventEmitter
   constructor: (cbs...) ->
     @list = []
@@ -57,14 +60,14 @@ class EventPipe extends events.EventEmitter
     for cb in cbs
       if typeof cb is 'function'
         @seq cb
-      else if cb instanceof Array
+      else if isArray cb
         @par cb...
     @
   lazy: (cbs...) ->
     for cb in cbs
       if typeof cb is 'function'
         @lseq cb
-      else if cb instanceof Array
+      else if isArray cb
         @lpar cb...
     @
   seq: (cbs...) ->

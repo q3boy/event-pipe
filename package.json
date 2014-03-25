@@ -19,7 +19,7 @@
     "url": "http://github.com/q3boy/event-pipe/issues"
   },
   "devDependencies": {
-    "coffee-script": "1.6.3",
+    "coffee-script": "*",
     "mocha": "*",
     "expect.js": "*",
     "jscover": "*",

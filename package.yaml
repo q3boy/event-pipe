@@ -1,12 +1,12 @@
 name: event-pipe
 main: index.js
-version: 0.0.4
+version: 0.0.5
 description: a simple event pipe, make async easy to use.
 author:
   name: 清笃
   email: qingdu@alibaba-inc.com
 engines:
-  node: >=0.6.0
+  node: '>=0.8.0'
 homepage: http://github.com/q3boy/event-pipe
 repository:
   type: git

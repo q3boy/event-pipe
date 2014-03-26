@@ -103,7 +103,7 @@ var e = ep().on('error', function(err){
 	},
 ]).lazy(function(){ // write file done
 	console.log('all done');
-}).run('http://www.google.com/') // start pipe
+}).run(err, 'http://www.google.com/') // start pipe, 第一个参数是设计缺陷
 ```
 
 ```javascript

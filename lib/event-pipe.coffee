@@ -1,18 +1,15 @@
-events = require "events"
+{EventEmitter} = require "events"
+{isArray, isFunction} = require 'util'
 
-isArray = (arg)->
-  Object.prototype.toString.call(arg) is '[object Array]'
-
-class EventPipe extends events.EventEmitter
+class EventPipe extends EventEmitter
   constructor: (cbs...) ->
     @list = []
-
+    @_setContainer()
     @reset()
-    return if cbs.length is 0
-    @add cbs...
+    @add cbs... if cbs.length
 
-  getContainer : ->
-    container = (args...) =>
+  _setContainer: ->
+    @container = (args...) =>
       if @stopped
         @emit 'stopped', @container
         return
@@ -21,7 +18,7 @@ class EventPipe extends events.EventEmitter
         @emit 'drain', @container
         return
 
-      [type, cb, lazy] = @list[@pointer]
+      [type, cbs, lazy] = @list[@pointer]
 
       # lazy mode
       if lazy
@@ -43,58 +40,51 @@ class EventPipe extends events.EventEmitter
 
       @pointer++
 
-      # seq to next cb
-      if type is 'seq'
-        cb.apply @container, args
-      # par to next cbs
-      else if type is 'par'
-        @flag = cb.length;
-        cb1.apply @container, args for cb1 in cb
-      return
-
-    container.__stop = =>
-      @stop()
-    @container = container
+      switch type
+        # seq to next cb
+        when 'seq' then cbs.apply @container, args
+        # par to next cbs
+        when 'par'
+          @flag = cbs.length
+          cb.apply @container, args for cb in cbs
 
   add: (cbs...) ->
     for cb in cbs
-      if typeof cb is 'function'
+      if isFunction cb
         @seq cb
       else if isArray cb
         @par cb...
-    @
+    this
   lazy: (cbs...) ->
     for cb in cbs
-      if typeof cb is 'function'
+      if isFunction cb
         @lseq cb
       else if isArray cb
         @lpar cb...
-    @
+    this
   seq: (cbs...) ->
     @list.push ['seq', cb] for cb in cbs
-    @
+    this
   lseq: (cbs...) ->
-    @list.push ['seq', cb, true] for cb in cbs
-    @
+    @list.push ['seq', cb, yes] for cb in cbs
+    this
   par: (cbs...) ->
     @list.push ['par', cbs]
-    @
+    this
   lpar: (cbs...) ->
-    @list.push ['par', cbs, true]
-    @
+    @list.push ['par', cbs, yes]
+    this
   run: (args...) ->
-    @container(args...)
-    @
+    @container args...
+    this
   stop: ->
-    @stopped = true
+    @stopped = yes
     @emit 'stop'
-    @
-  reset : ->
+    this
+  reset: ->
     @flag = @pointer = 0
     @parArgs = []
-    @getContainer()
-    @
+    this
 
 module.exports = (args...) ->
   new EventPipe args...
-

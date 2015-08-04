@@ -48,6 +48,11 @@ class EventPipe extends EventEmitter
           @flag = cbs.length
           cb.apply @container, args for cb in cbs
 
+    @container.stop = =>
+      @stop()
+      
+    @container
+
   add: (cbs...) ->
     for cb in cbs
       if isFunction cb

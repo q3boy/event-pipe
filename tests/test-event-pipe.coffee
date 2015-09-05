@@ -117,7 +117,7 @@ describe 'Event Pipe Test', ->
       flag = 0
       stop = false
       ep ->
-        @__stop()
+        @stop()
         process.nextTick (->
           flag++
           @()

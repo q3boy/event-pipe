@@ -8,7 +8,7 @@
     "email": "qingdu@alibaba-inc.com"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.11.0"
   },
   "homepage": "http://github.com/q3boy/event-pipe",
   "repository": {
